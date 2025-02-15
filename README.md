@@ -66,25 +66,15 @@ mkcdir ()
     mkdir -p -- "$1" &&
        cd -P -- "$1"
 }
-# It will update everything on termux
 alias ud="pkg update && pkg upgrade"
-# Install package with it i.e. "pki wget"
 alias pki="pkg install"
-# Open this bashrc file for edit and on close it will cd to home directory i will make it to cd on current working directory
-alias myalias="nano /data/data/com.termux/files/usr/etc/bash.bashrc && cd ~"
-# It will run docker.sh script to start docker daemon
+alias alias="nano /data/data/com.termux/files/usr/etc/bash.bashrc && cd ~"
 alias ds="sudo bash ~/dhs/docker.sh"
-# It will run network.sh script for setting network for docker
 alias ns="sudo bash ~/dhs/network.sh"
-# Now you can run docker command without typing sudo
 alias docker="sudo docker"
-# alias for kubectl for minikube or any other kubernetes apps
 alias k="kubectl"
-# It will open nano with touch position enabled editor mode
 alias nano="nano -m"
-# To clear working termux tab
 alias cl="clear"
-# To exit from termux app quickly
 alias q="exit"
 ```
 now save file and exit from termux and restart termux app
@@ -105,4 +95,5 @@ Thanks to:
 - [termux](https://github.com/termux) for their amazing app.
 - [Docker on Android](https://gist.github.com/FreddieOliveira/efe850df7ff3951cb62d74bd770dce27#3-running) complete guide for running docker.
 - [K20pro Docker Kernel](https://blog.csdn.net/qq_39341687/article/details/134996369) tutorial for flashing docker-compatible kernel.
+- [Docker-native-on](https://github.com/Morakhiyasaiyam/Docker-native-on-Termux-on-Android) -Termux-on-Android
 
