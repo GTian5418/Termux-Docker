@@ -122,22 +122,17 @@ and add this text to it..
 I also added some useful alias I am using.
  
 ```bash
-# It will make folder and cd in to it directly
-mkcdir ()
-{
-    mkdir -p -- "$1" &&
-       cd -P -- "$1"
-}
-alias ud="pkg update && pkg upgrade"
+alias uu="pkg update && pkg upgrade"
 alias pki="pkg install"
 alias alias="nano /data/data/com.termux/files/usr/etc/bash.bashrc && cd ~"
-alias ds="sudo bash ~/dhs/docker.sh"
-alias ns="sudo bash ~/dhs/network.sh"
-alias docker="sudo docker"
-alias k="kubectl"
-alias nano="nano -m"
+alias ds="sudo bash ~/.dhs/docker.sh"
+alias ns="sudo bash ~/.dhs/network.sh"
+alias dc='sudo docker'
+alias dce='sudo docker exec -it'
+alias dcp='sudo docker ps -a'
+alias dci='sudo docker images'
+alias dcr='sudo docker rm -f'
 alias cl="clear"
-alias q="exit"
 ```
 now save file and exit from termux and restart termux app
 
