@@ -24,18 +24,80 @@ pkg install wget golang make cmake ndk-multilib tsu dnsutils iproute2
 after that you have to install tini but you have to compile it manually on your device with
 
 ```bash
-mkdir $TMPDIR/docker-build
+#!/bin/bash
+set -e
+export TMPDIR=/data/data/com.termux/files/usr/tmp
+export PREFIX=/data/data/com.termux/files/usr
+log() {
+    echo ">>> $1"
+}
+log "Cleaning old build directory"
+rm -rf $TMPDIR/docker-build
+mkdir -p $TMPDIR/docker-build
 cd $TMPDIR/docker-build
-cd $TMPDIR/docker-build
+log "Downloading and extracting source code"
 wget https://github.com/krallin/tini/archive/v0.19.0.tar.gz
 tar xf v0.19.0.tar.gz
 cd tini-0.19.0
-mkdir build
+log "Fixing function declarations"
+sed -i 's/\([a-zA-Z_][a-zA-Z0-9_]*\s\+[a-zA-Z_][a-zA-Z0-9_]*\s*\)()[ ]*{/\1(void) {/g' src/tini.c
+log "Creating CMakeLists.txt"
+cat > CMakeLists.txt << 'EOF'
+cmake_minimum_required(VERSION 3.10)
+project(tini C)
+option(MINIMAL "Optimize for size" OFF)
+set(tini_VERSION_MAJOR 0)
+set(tini_VERSION_MINOR 19)
+set(tini_VERSION_PATCH 0)
+set(TINI_VERSION "${tini_VERSION_MAJOR}.${tini_VERSION_MINOR}.${tini_VERSION_PATCH}")
+configure_file(
+  "${PROJECT_SOURCE_DIR}/src/tiniConfig.h.in"
+  "${PROJECT_BINARY_DIR}/tiniConfig.h"
+)
+include_directories("${PROJECT_BINARY_DIR}")
+set(tini_SOURCES src/tini.c)
+add_executable(tini ${tini_SOURCES})
+if(MINIMAL)
+  target_compile_definitions(tini PRIVATE -DMINIMAL=1)
+endif()
+target_compile_definitions(tini PRIVATE
+  TINI_VERSION="${TINI_VERSION}"
+)
+install(TARGETS tini
+        RUNTIME DESTINATION bin)
+EOF
+log "Creating configuration header template"
+cat > src/tiniConfig.h.in << 'EOF'
+#ifndef TINI_CONFIG_H
+#define TINI_CONFIG_H
+#define TINI_VERSION_MAJOR @tini_VERSION_MAJOR@
+#define TINI_VERSION_MINOR @tini_VERSION_MINOR@
+#define TINI_VERSION_PATCH @tini_VERSION_PATCH@
+#define TINI_VERSION "@TINI_VERSION@"
+#define TINI_GIT ""
+#endif
+EOF
+log "Building tini"
+mkdir -p build
 cd build
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PREFIX ..
-make -j8
+cmake \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_INSTALL_PREFIX=$PREFIX \
+  -DMINIMAL=ON \
+  ..
+make -j$(nproc)
 make install
-ln -s $PREFIX/bin/tini-static $PREFIX/bin/docker-init
+log "Creating docker-init symlink"
+ln -sf $PREFIX/bin/tini $PREFIX/bin/docker-init
+log "Verifying installation"
+if [ -f "$PREFIX/bin/docker-init" ]; then
+    echo "Installation successful!"
+    echo "Version information:"
+    $PREFIX/bin/docker-init --version
+else
+    echo "Installation failed!"
+    exit 1
+fi
 ```
 
 ## Get some useful scripts
