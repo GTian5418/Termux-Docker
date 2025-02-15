@@ -106,8 +106,8 @@ cd ~
 pkg install wget
 mkdir dhs
 cd dhs
-wget https://raw.githubusercontent.com/Morakhiyasaiyam/Docker-native-on-Termux-on-Android/main/docker.sh
-wget https://raw.githubusercontent.com/Morakhiyasaiyam/Docker-native-on-Termux-on-Android/main/network.sh
+wget https://raw.githubusercontent.com/GTian5418/Termux-Docker/refs/heads/main/docker.sh
+wget https://raw.githubusercontent.com/GTian5418/Termux-Docker/refs/heads/main/network.sh
 chmod 777 docker.sh && chmod 777 network.sh
 ```
 ## Hacks
