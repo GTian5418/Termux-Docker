@@ -1,3 +1,5 @@
+sudo mkdir -p /data/docker/run
+sudo mkdir -p /var/run
 sudo mount -o remount,rw /
 sudo mount -t tmpfs -o mode=755 tmpfs /sys/fs/cgroup
 sudo mkdir -p /sys/fs/cgroup/devices
