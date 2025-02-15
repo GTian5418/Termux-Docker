@@ -104,8 +104,8 @@ fi
 ```bash
 cd ~
 pkg install wget
-mkdir dhs
-cd dhs
+mkdir .dhs
+cd .dhs
 wget https://raw.githubusercontent.com/GTian5418/Termux-Docker/refs/heads/main/docker.sh
 wget https://raw.githubusercontent.com/GTian5418/Termux-Docker/refs/heads/main/network.sh
 chmod 777 docker.sh && chmod 777 network.sh
