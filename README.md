@@ -124,7 +124,7 @@ I also added some useful alias I am using.
 ```bash
 alias uu="pkg update && pkg upgrade"
 alias pki="pkg install"
-alias alias="nano /data/data/com.termux/files/usr/etc/bash.bashrc && cd ~"
+alias myalias="nano $PREFIX/etc/bash.bashrc  && cd ~"
 alias ds="sudo bash ~/.dhs/docker.sh"
 alias ns="sudo bash ~/.dhs/network.sh"
 alias dc='sudo docker'
