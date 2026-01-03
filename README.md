@@ -116,7 +116,7 @@ Now add some shortcut commands to our bashrc to make alias of our commands. Open
  
 ```bash
 cd ~
-nano /data/data/com.termux/files/usr/etc/bash.bashrc
+nano $PREFIX/etc/bash.bashrc
 ```
 and add this text to it..
 I also added some useful alias I am using.
